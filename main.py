@@ -1,16 +1,17 @@
+from pathlib import Path
+    
 def parse_formula_from_file(file_path: str):
     lines = ""
     with open(file_path) as file:
-        for line in file:
-            lines += line
+        lines = "\n".join(line.rstrip() for line in file)
     return parse_formula_from_string(lines)
 
 def parse_formula_from_string(content: str):
     lines = content.split("\n")
     (num_vars, num_clauses) = lines[0].split(" ")[2:]
 
-    formula = [set(map(int, clause.strip().split())) - {0} for clause in lines[1:-1]]
-    return (num_vars, num_clauses, formula)
+    formula = [set(map(int, clause.strip().split())) - {0} for clause in lines[1:]]
+    return Formula(num_vars, num_clauses, formula)
 
 # clauses only conain not-yet assigned variables
 # history is stores stack of previous versions of clauses
@@ -22,12 +23,16 @@ class Formula():
         self.num_clauses = num_clauses
         self.clauses = clauses # current clauses
         self.history = [] # previous clauses
+        self.assignment = {}
 
     def __str__(self):
-        return "[" + ", ".join(["{" + " ".join(map(str, clause)) + "}" for clause in self.clauses]) + "]"
+        return "Clauses: [" + ", ".join(["{" + " ".join(map(str, clause)) + "}" for clause in self.clauses]) + "] \n" \
+            + "Assignment: [" +  " ,".join(f"{var}={value}" for (var, value) in self.assignment.items())  + "]"
 
     # use e.g. -3 to set x3 to false
+    # NOTE: does not update num_vars and num_clauses (yet)
     def set_value(self, var: int):
+        self.assignment[abs(var)] = True if var > 0 else False
         self.history.append(self.clauses)
         new_clauses = []
         for clause in self.clauses:
@@ -40,33 +45,38 @@ class Formula():
             else:
                 new_clauses.append(clause)
         self.clauses = new_clauses
-        return new_clauses
+        return self
 
 
 
-
-def simple_recursive(formula: list[list]):
-    if formula == []:
+def simple_recursive(formula: Formula):
+    if formula.clauses == []: # emtpy formula
         return True
-    if [] in formula:
+    if set() in formula.clauses: # contains empty clause
         return False
     else:
-        var = "x"
+        var = next(iter(formula.clauses[0])) #gets the first variable in the first clause
+        return simple_recursive(formula.set_value(var)) or simple_recursive(formula.set_value(-var))
 
 
 
 
 # run / testing
-formula = Formula(*parse_formula_from_file("test.ln"))
-formula.set_value(-5)
-formula.set_value(-1)
-# formula.set_value(-2)
-# formula.set_value(-6)
-print(formula)
 
+folder = Path("test-formulas")
+recursion_error = 0
+succ = 0
+for file in folder.iterdir():
+    print(file.resolve())
+    formula = parse_formula_from_file(str(file.resolve()))
+    try:
+        print(simple_recursive(formula))
+        succ += 1
+    except RecursionError as e:
+        print(e)
+        recursion_error += 1
 
-
-
+print(f"Recursion Errors: {recursion_error} | Successful: {succ}")
 
 
 
