@@ -155,7 +155,7 @@ def main():
 
     elif args.verify_non_recursive:
         print("\nNon-Recursive using watched literal BCP with 5min timeout")
-        test_solver(simple_non_recursive, "simple_non_recursive", timeout=10)
+        test_solver(simple_non_recursive, "simple_non_recursive", timeout=300)
     elif args.compare:
         print("\n=== Comparing ===")
         compare_solvers(
