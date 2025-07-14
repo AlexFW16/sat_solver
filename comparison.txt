@@ -69,12 +69,12 @@ prime25.in                      simple_recursive=0.32s [OK] | simple_non_recursi
 add8R.in                        simple_recursive=41.25s [OK] | simple_non_recursive=3.78s [OK]
 add8.in                         simple_recursive=38.35s [OK] | simple_non_recursive=3.78s [OK]
 prime49.in                      simple_recursive=0.73s [OK] | simple_non_recursive=0.00s [OK]
-add16.in                        simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [
-add16R.in                       simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [
+add16.in                        simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [TIMEOUT]
+add16R.in                       simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [TIMEOUT]
 prime121.in                     simple_recursive=108.02s [OK] | simple_non_recursive=0.01s [OK]
-prime169.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive=0.07
-prime289.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive
-prime361.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive
+prime169.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive=0.07 [OK]
+prime289.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive=0.25 [OK]
+prime361.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive=0.19 [OK]
 add32.in                        simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [TIMEOUT]
 add32R.in                       simple_recursive=--    [TIMEOUT] | simple_non_recursive=--    [TIMEOUT]
 prime841.in                     simple_recursive=--    [TIMEOUT] | simple_non_recursive=0.89s [OK]
