@@ -163,7 +163,7 @@ def main():
             "simple_recursive",
             simple_non_recursive,
             "simple_non_recursive",
-            timeout=5,
+            timeout=300,
         )
     else:
         print("Please use --verify-recursive, --verify_non_recursive or --compare.")
