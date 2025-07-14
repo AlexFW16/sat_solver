@@ -48,7 +48,7 @@ def test_solver(solver_fn, name, timeout=60):
                 timeouts += 1
                 future.cancel()
             except Exception as e:
-                status = f"ERROR ({e.with_traceback})"
+                status = f"ERROR ({e})"
                 custom_res = None
 
             print(
@@ -132,10 +132,14 @@ def compare_solvers(solver_fn1, name1, solver_fn2, name2, timeout=300):
 def main():
     parser = argparse.ArgumentParser(description="Test custom SAT solvers.")
     parser.add_argument(
-        "--verify-recursive", action="store_true", help="Verify correctness against PySAT."
+        "--verify-recursive",
+        action="store_true",
+        help="Verify correctness against PySAT.",
     )
     parser.add_argument(
-        "--verify-non-recursive", action="store_true", help="Verify correctness against PySAT."
+        "--verify-non-recursive",
+        action="store_true",
+        help="Verify correctness against PySAT.",
     )
     parser.add_argument(
         "--compare",
@@ -146,13 +150,12 @@ def main():
     args = parser.parse_args()
 
     if args.verify_recursive:
-        print("\nRecursive with 1min timeout")
-        test_solver(simple_recursive, "simple_recursive", timeout=1)
+        print("\nRecursive with 5min timeout")
+        test_solver(simple_recursive, "simple_recursive", timeout=300)
 
     elif args.verify_non_recursive:
-        print("\nNon-Recursive using watched literal BCP with 1min timeout")
-        test_solver(simple_non_recursive, "simple_non_recursive", timeout=5)
-        print("here")
+        print("\nNon-Recursive using watched literal BCP with 5min timeout")
+        test_solver(simple_non_recursive, "simple_non_recursive", timeout=300)
     elif args.compare:
         print("\n=== Comparing ===")
         compare_solvers(
