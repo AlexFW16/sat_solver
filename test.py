@@ -23,7 +23,7 @@ def timed_solver_call(solver_fn, formula):
 def test_solver(solver_fn, name, timeout=60):
     total = correct = timeouts = 0
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=2) as pool:
+    with concurrent.futures.ProcessPoolExecutor() as pool:
         for file in FILES:
             total += 1
 
@@ -155,7 +155,7 @@ def main():
 
     elif args.verify_non_recursive:
         print("\nNon-Recursive using watched literal BCP with 5min timeout")
-        test_solver(simple_non_recursive, "simple_non_recursive", timeout=300)
+        test_solver(simple_non_recursive, "simple_non_recursive", timeout=10)
     elif args.compare:
         print("\n=== Comparing ===")
         compare_solvers(
